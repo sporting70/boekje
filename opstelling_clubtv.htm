@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<title>Sporting '70 wedstrijdboekje</title>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		
+		<style type="text/css">
+			body {
+				font-family: 'Roboto Condensed', sans-serif;
+				font-weight: 300;
+				font-size: 2.3vw;
+				color: #000000;
+			}
+			
+		</style>
+	</head>
+	<body>
+	
+		<div id="content">
+		</div>
+		
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+		<!-- Include all compiled plugins (below), or include individual files as needed -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
+		<script type="text/javascript">
+			$.get('https://dl.dropboxusercontent.com/s/8g1y39mion7jscx/opstelling.txt?dl=0', function(opstelling) {
+			
+				if (opstelling.trim() == '' || opstelling.trim() == 'Nog niet bekend') {
+					$('#content').html('<div style="width: 100%; font-size: 100%;">Nog niet bekend</div>');
+				}
+				else {
+			
+					var opstelling_left_no = '<div style="width: 10%; float: left; font-size: 200%; text-align: right;"><div style="padding-right: 30px;">';
+					var opstelling_left_name = '<div style="width: 40%; float: left; font-size: 200%;">';
+					var opstelling_right_no = '<div style="width: 10%; float: left; font-size: 200%; text-align: right;"><div style="padding-right: 30px;">';
+					var opstelling_right_name = '<div style="width: 40%; float: left; font-size: 200%;">';
+					var first_part = true;
+					
+					var lines = opstelling.split('\n');
+					for (var i=0; i<lines.length; i++) {
+						var playername = lines[i].trim();
+						if (playername == '') {
+							first_part = false;
+							continue;
+						}
+						var parts = playername.split('.');
+						var number = parts[0].trim();
+						var name = parts[1].trim();
+						
+						if (number !== '') {
+							number += '.';
+						}
+						
+						if (first_part) {
+							opstelling_left_no += number+'<br />';
+							opstelling_left_name += name+'<br />';
+						} else {
+							opstelling_right_no += number+'<br />';
+							opstelling_right_name += name+'<br />';
+						}
+					}
+					
+					opstelling_left_no += '&nbsp;</div></div>';
+					opstelling_left_name += '&nbsp;</div>';
+					opstelling_right_no += '&nbsp;</div></div>';
+					opstelling_right_name += '&nbsp;</div>';
+					
+					var opstelling_total = opstelling_left_no+opstelling_left_name+opstelling_right_no+opstelling_right_name;
+					
+					$('#content').html(opstelling_total);
+				}
+			});
+			
+			
+		</script>
+		
+	</body>
+</html>
